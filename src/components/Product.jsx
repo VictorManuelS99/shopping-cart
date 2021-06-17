@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Separator } from "./Separator";
 
-export const Product = ({ product, deleteProduct, products, setProducts }) => {
+export const Product = ({ product, deleteProduct, costs, setCosts }) => {
   const { id, image, name, amount, price } = product;
   const [amountProduct, setAmountProduct] = useState(amount);
   const [priceProduct, setPriceProduct] = useState(price * amount);
