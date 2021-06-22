@@ -1,22 +1,8 @@
-import { useEffect, useState } from "react";
 import { Separator } from "./Separator";
 
-export const Product = ({ product, deleteProduct, costs, setCosts }) => {
+export const Product = ({ product, deleteProduct, addAmount, rmAmount }) => {
   const { id, image, name, amount, price } = product;
-  const [amountProduct, setAmountProduct] = useState(amount);
-  const [priceProduct, setPriceProduct] = useState(price * amount);
-
-  useEffect(() => {
-    setPriceProduct((price * amountProduct).toFixed(2));
-  }, [price, amountProduct]);
-
-  const plusAmount = () => {
-    setAmountProduct(amountProduct + 1);
-  };
-
-  const lessAmount = () => {
-    if (amountProduct > 0) setAmountProduct(amountProduct - 1);
-  };
+  const priceUpd = amount * price;
 
   return (
     <>
@@ -29,15 +15,15 @@ export const Product = ({ product, deleteProduct, costs, setCosts }) => {
             <div className="product_data_amount_btns">
               <button
                 onClick={() => {
-                  lessAmount();
+                  rmAmount(id);
                 }}
               >
                 -
               </button>
-              <p>{amountProduct}</p>
+              <p>{amount}</p>
               <button
                 onClick={() => {
-                  plusAmount();
+                  addAmount(id);
                 }}
               >
                 +
@@ -46,7 +32,9 @@ export const Product = ({ product, deleteProduct, costs, setCosts }) => {
           </div>
         </div>
         <div className="product_data_right ">
-          <p className="product_data_price">S/.{priceProduct}</p>
+          <p className="product_data_price">
+            S/.<span id="price">{priceUpd.toFixed(2)}</span>
+          </p>
           <button
             className="product_delete_btn"
             onClick={() => {

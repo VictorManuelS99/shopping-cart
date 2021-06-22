@@ -4,6 +4,7 @@
 .main {
   display: flex;
   height: 100vh;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin: 0;
@@ -104,6 +105,36 @@
   cursor: pointer;
 }
 
+.product_bottom {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.product_btn_pagar {
+  all: unset;
+  width: 100%;
+  background-color: #ffffff;
+  text-align: center;
+  color: #5d5fef;
+  font-size: 18px;
+  border-radius: 8px;
+  padding-bottom: 8px;
+  padding-top: 8px;
+  margin-top: 18px;
+}
+
+.product_clean_btn {
+  all: unset;
+  justify-self: flex-end;
+  float: right;
+  margin-top: 10px;
+  font-size: 12px;
+}
+.product_clean_btn:hover{
+  cursor: pointer;
+}
 /* spinner */
 .spinner-layout {
   height: 350px;

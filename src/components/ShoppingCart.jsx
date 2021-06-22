@@ -3,34 +3,51 @@ import { getProducts } from "../services/ShoppingCartService";
 import { Product } from "./Product";
 import { Separator } from "./Separator";
 import { Spinner } from "./Spinner";
+import { Subtotal } from "./Subtotal";
+import { Envio } from "./Envio";
+import { Total } from "./Total";
+import { BtnPagar } from "./BtnPagar";
 
 export const ShoppingCart = () => {
   const [products, setProducts] = useState([]);
-  const [costs, setCosts] = useState(0);
+  const envioCost = 40;
+  const subtotal =
+    products.length > 0 && products.reduce((a, c) => a + c.price * c.amount, 0);
 
   useEffect(() => {
     fetchProducts();
-    console.log(costs);
   }, []);
 
   const fetchProducts = async () => {
-    const prods = await getProducts();
-    setProducts(prods);
-    console.log("fetcssssshsss");
-    updCosts();
+    const data = await getProducts();
+    setProducts(data);
   };
 
-  const updCosts = () => {
-    setCosts(
-      [...products].filter((p) => {
-        const { id, price } = p;
-        return { id, price };
+  const deleteProduct = (id) => {
+    setProducts(products.filter((product) => product.id !== id));
+  };
+
+  const addAmount = (id) => {
+    setProducts(
+      products.map((p) => {
+        if (p.id === id) return { ...p, amount: (p.amount += 1) };
+        return p;
       })
     );
   };
 
-  const deleteProduct = (id) => {
-    setProducts([...products].filter((product) => product.id !== id));
+  const rmAmount = (id) => {
+    setProducts(
+      products.map((p) => {
+        if (p.id === id && p.amount > 0)
+          return { ...p, amount: (p.amount -= 1) };
+        return p;
+      })
+    );
+  };
+
+  const cleanShoppingCart = () => {
+    setProducts([]);
   };
 
   return (
@@ -44,14 +61,22 @@ export const ShoppingCart = () => {
               product={product}
               key={`${index}-product-${product.id}`}
               deleteProduct={deleteProduct}
-              costs={costs}
-              setCosts={setCosts}
+              addAmount={addAmount}
+              rmAmount={rmAmount}
             />
           );
         })
       ) : (
         <Spinner />
       )}
+      {<Subtotal subtotal={subtotal} />}
+      <Envio envioCost={envioCost} />
+      <Separator />
+      <Total subtotal={subtotal} envioCost={envioCost} />
+      <BtnPagar />
+      <button onClick={cleanShoppingCart} className="product_clean_btn">
+        Limpiar carrito
+      </button>
     </div>
   );
 };
